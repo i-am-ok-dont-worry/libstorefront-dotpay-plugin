@@ -17,10 +17,14 @@ export namespace DotpayThunks {
     export const getDotpayForm = (orderId: string) => async (dispatch, getState) => {
         try {
             const response = await IOCContainer.get(DotpayDao).getDotpayForm(orderId);
+            const lastOrderId = await IOCContainer.get(AbstractStore).getState().order.last_order_confirmation.confirmation.orderNumber;
             let dotpay: DotpayResponse;
             if (response.result instanceof Array) {
                 const [data] = response.result;
-                if (data && data.hasOwnProperty('url')) { dotpay = data; }
+                if (data && data.hasOwnProperty('url')) {
+                    dotpay = data;
+                    Object.assign(dotpay.data, { magentoOrder: lastOrderId });
+                }
             } else {
                 if (response.result && response.result.hasOwnProperty('url')) { dotpay = response.result; }
             }

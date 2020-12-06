@@ -23,7 +23,8 @@ export interface DotpayForm {
     street: string,
     street_n1: string,
     type: number,
-    url: string
+    url: string,
+    magentoOrder: string
 }
 
 export interface DotpayResponse {

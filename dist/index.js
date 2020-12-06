@@ -448,19 +448,23 @@ var DotpayThunks;
     var _this = this;
     // @ts-ignore
     DotpayThunks.getDotpayForm = function (orderId) { return function (dispatch, getState) { return __awaiter(_this, void 0, void 0, function () {
-        var response, dotpay, data, e_1;
+        var response, lastOrderId, dotpay, data, e_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 4, , 5]);
+                    _a.trys.push([0, 5, , 6]);
                     return [4 /*yield*/, libstorefront_1.IOCContainer.get(dao_1.DotpayDao).getDotpayForm(orderId)];
                 case 1:
                     response = _a.sent();
+                    return [4 /*yield*/, libstorefront_1.IOCContainer.get(libstorefront_1.AbstractStore).getState().order.last_order_confirmation.confirmation.orderNumber];
+                case 2:
+                    lastOrderId = _a.sent();
                     dotpay = void 0;
                     if (response.result instanceof Array) {
                         data = response.result[0];
                         if (data && data.hasOwnProperty('url')) {
                             dotpay = data;
+                            Object.assign(dotpay.data, { magentoOrder: lastOrderId });
                         }
                     }
                     else {
@@ -469,17 +473,17 @@ var DotpayThunks;
                         }
                     }
                     return [4 /*yield*/, dispatch(dotpay_actions_1.DotpayActions.setDotpayForm(dotpay.data))];
-                case 2:
+                case 3:
                     _a.sent();
                     return [4 /*yield*/, dispatch(dotpay_actions_1.DotpayActions.setDotpayUrl(dotpay.url))];
-                case 3:
+                case 4:
                     _a.sent();
                     libstorefront_1.StorageManager.getInstance().get(libstorefront_1.StorageCollection.ORDERS).setItem('last_dotpay_payment', getState().dotpay);
                     return [2 /*return*/, dotpay];
-                case 4:
+                case 5:
                     e_1 = _a.sent();
                     return [2 /*return*/, null];
-                case 5: return [2 /*return*/];
+                case 6: return [2 /*return*/];
             }
         });
     }); }; };
@@ -624,7 +628,7 @@ var qs = __webpack_require__(/*! querystring */ "querystring");
  * @param {DotpayForm} formData
  */
 var buildDotpayRedirectUrl = function (sslUrl, formData) {
-    if (formData && Object.keys(formData).length > 0) {
+    if (formData && Object.keys(formData).filter(function (k) { return k !== 'magentoOrder'; }).length > 0) {
         return sslUrl + "/?" + qs.stringify(formData);
     }
     return sslUrl;
@@ -645,6 +649,7 @@ var buildDotpayForm = function (sslUrl, formData) {
         return null;
     }
     var form = Object.keys(formData)
+        .filter(function (k) { return k !== 'magentoOrder'; })
         .reduce(function (acc, next) {
         var field = "<input type=\"hidden\" name=\"" + next + "\" value=\"" + formData[next] + "\" />";
         return __spreadArrays(acc, [field]);

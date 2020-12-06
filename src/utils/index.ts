@@ -9,7 +9,7 @@ const qs = require('querystring');
  * @param {DotpayForm} formData
  */
 export const buildDotpayRedirectUrl = (sslUrl: string, formData: DotpayForm) => {
-    if (formData && Object.keys(formData).length > 0) {
+    if (formData && Object.keys(formData).filter(k => k !== 'magentoOrder').length > 0) {
         return `${sslUrl}/?${qs.stringify(formData)}`;
     }
 
@@ -27,6 +27,7 @@ export const buildDotpayForm = (sslUrl: string, formData: DotpayForm) => {
     if (ConnectionState.isServer()) { throw new Error(`Cannot send dotpay data on server`); }
     if (!formData || Object.keys(formData).length === 0) { return null; }
     let form = Object.keys(formData)
+        .filter(k => k !== 'magentoOrder')
         .reduce((acc, next) => {
             const field = `<input type="hidden" name="${next}" value="${formData[next]}" />`;
             return [...acc, field];
