@@ -1,4 +1,4 @@
-import { AbstractStore, LibstorefrontInnerState, Task } from '@grupakmk/libstorefront';
+import { AbstractStore, LibstorefrontInnerState } from '@grupakmk/libstorefront';
 import { DotpayResponse, DotpayStatus } from '../types';
 export declare class DotpayService {
     private store;
@@ -17,10 +17,16 @@ export declare class DotpayService {
      */
     getDotpayPaymentStatus(orderId: string): Promise<DotpayStatus>;
     /**
-     * Sends parsed dotpay form
+     * Loads last dotpay transaction from localstorage into the Redux store
      */
-    sendDotpayForm(): Promise<Task>;
     loadLastTransactionFromCache(): void;
-    redirectToDotpay(): Promise<void>;
+    /**
+     * Redirects to dotpay secure payment site via GET redirect
+     */
+    redirectToDotpayViaUrl(): Promise<void>;
+    /**
+     * Redirects to dotpay secure payment site via injected html POST form
+     */
+    redirectToDotpayViaPostForm(): Promise<void>;
     constructor(store: AbstractStore<LibstorefrontInnerState>);
 }

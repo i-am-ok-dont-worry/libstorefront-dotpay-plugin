@@ -1,4 +1,4 @@
-import { DotpayForm, DotpayStatus } from "../types";
+import { DotpayForm, DotpayStatus } from '../types';
 
 export const DotpayDefaultState: DotpayModuleState = {
     form: null,

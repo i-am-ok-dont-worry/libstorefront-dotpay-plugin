@@ -27,18 +27,24 @@ export class DotpayService {
     }
 
     /**
-     * Sends parsed dotpay form
+     * Loads last dotpay transaction from localstorage into the Redux store
      */
-    public sendDotpayForm (): Promise<Task> {
-        return this.store.dispatch(DotpayThunks.sendDotpayForm());
-    }
-
     public loadLastTransactionFromCache (): void {
         this.store.dispatch(DotpayThunks.loadLastDotpayTransaction());
     }
 
-    public redirectToDotpay (): Promise<void> {
-        return this.store.dispatch(DotpayThunks.dotpayRedirect());
+    /**
+     * Redirects to dotpay secure payment site via GET redirect
+     */
+    public redirectToDotpayViaUrl (): Promise<void> {
+        return this.store.dispatch(DotpayThunks.redirectToDotpayViaUrl());
+    }
+
+    /**
+     * Redirects to dotpay secure payment site via injected html POST form
+     */
+    public redirectToDotpayViaPostForm (): Promise<void> {
+        return this.store.dispatch(DotpayThunks.redirectToDotPayViaPostForm());
     }
 
     public constructor(@inject(AbstractStore) private store: AbstractStore<LibstorefrontInnerState>) {}

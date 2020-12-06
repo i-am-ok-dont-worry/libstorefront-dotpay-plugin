@@ -1,16 +1,16 @@
-import {DotpayDao} from '../dao';
-import {DotpayActions} from './dotpay.actions';
+import { DotpayDao } from '../dao';
+import { DotpayActions } from './dotpay.actions';
 import {
     AbstractStore,
     ConnectionState,
     IOCContainer,
-    LibstorefrontInnerState,
+    Logger,
     StorageCollection,
     StorageManager
 } from '@grupakmk/libstorefront';
-import {DotpayResponse, DotpayStatus} from '../types';
-import {DotpayModuleState} from './dotpay.default';
-import {buildDotpayForm, buildDotpayPostBody} from "../utils";
+import { DotpayResponse, DotpayStatus } from '../types';
+import { DotpayModuleState } from './dotpay.default';
+import { buildDotpayForm, buildDotpayRedirectUrl } from '../utils';
 
 export namespace DotpayThunks {
     // @ts-ignore
@@ -46,27 +46,7 @@ export namespace DotpayThunks {
         }
     };
 
-    export const sendDotpayForm = () => async (dispatch, getState) => {
-        const orderNumber = (IOCContainer.get(AbstractStore).getState() as LibstorefrontInnerState).order.last_order_confirmation.confirmation.orderNumber;
-        const trackStatus = (orderNumber) => {
-            const interval = setInterval(async () => {
-                const status = await dispatch(getDotpayStatus(orderNumber));
-                if (status === DotpayStatus.SUCCESS) { clearInterval(interval); }
-                StorageManager.getInstance().get(StorageCollection.ORDERS).setItem('last_dotpay_payment', getState().dotpay);
-            }, 5000);
-        };
-
-        try {
-            const dotpay = IOCContainer.get(AbstractStore).getState().dotpay as DotpayModuleState;
-            const { form, url } = dotpay;
-            await IOCContainer.get(DotpayDao).sendDotpayInformationForm(url, form);
-            trackStatus(orderNumber);
-        } catch (e) {
-            trackStatus(orderNumber);
-        }
-    };
-
-    export const dotpayRedirect = () => async (dispatch, getState) => {
+    export const redirectToDotPayViaPostForm = () => async (dispatch, getState) => {
         try {
             if (ConnectionState.isServer()) { throw new Error(`Cannot use dotpay plugin on server`); }
 
@@ -76,17 +56,24 @@ export namespace DotpayThunks {
             const container = document.createElement('div');
             const form = buildDotpayForm(dotpay.url, dotpay.form);
 
-            /*container.innerHTML = form;
-            console.warn('Inject: ', form);
+            container.innerHTML = form;
             document.body.appendChild(container);
-            setTimeout(() => {
-                (document.getElementsByClassName('dotpay-form')[0] as any).submit();
-            }, 10);*/
-            console.warn('Redirect to: ', dotpay.url + '?' + buildDotpayPostBody(dotpay.form));
-            window.location.href = dotpay.url + '?' + buildDotpayPostBody(dotpay.form);
-
+            setTimeout(() => (document.getElementsByClassName('dotpay-form')[0] as any).submit(), 10);
         } catch (e) {
-            console.warn('Dotpay error: ', e);
+            Logger.warn(`Dotpay error: `, e);
+            dispatch(DotpayActions.setDotpayStatus(DotpayStatus.ERROR));
+        }
+    };
+
+    export const redirectToDotpayViaUrl = () => async (dispatch, getState) => {
+        try {
+            if (ConnectionState.isServer()) { throw new Error(`Cannot use dotpay plugin on server`); }
+
+            dispatch(DotpayActions.setDotpayStatus(DotpayStatus.PENDING));
+            const dotpay = (IOCContainer.get(AbstractStore).getState().dotpay as DotpayModuleState);
+            window.location.href = buildDotpayRedirectUrl(dotpay.url, dotpay.form);
+        } catch (e) {
+            Logger.warn(`Dotpay error: `, e);
             dispatch(DotpayActions.setDotpayStatus(DotpayStatus.ERROR));
         }
     };

@@ -1,7 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { Task, TaskQueue, URLTransform } from '@grupakmk/libstorefront';
 import { DotpayForm } from "../types";
-import { buildDotpayPostBody } from "../utils";
 
 @injectable()
 export class DotpayDao {
@@ -24,19 +23,6 @@ export class DotpayDao {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
                 mode: 'cors'
-            },
-            silent: true
-        });
-    }
-
-    public sendDotpayInformationForm (sslUrl: string, form: DotpayForm): Promise<Task> {
-        return this.taskQueue.execute({
-            url: sslUrl,
-            payload: {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                mode: 'cors',
-                body: buildDotpayPostBody(form)
             },
             silent: true
         });

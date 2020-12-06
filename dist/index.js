@@ -144,7 +144,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DotpayDao = void 0;
 var inversify_1 = __webpack_require__(/*! inversify */ "inversify");
 var libstorefront_1 = __webpack_require__(/*! @grupakmk/libstorefront */ "@grupakmk/libstorefront");
-var utils_1 = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
 var DotpayDao = /** @class */ (function () {
     function DotpayDao(taskQueue) {
         this.taskQueue = taskQueue;
@@ -167,18 +166,6 @@ var DotpayDao = /** @class */ (function () {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
                 mode: 'cors'
-            },
-            silent: true
-        });
-    };
-    DotpayDao.prototype.sendDotpayInformationForm = function (sslUrl, form) {
-        return this.taskQueue.execute({
-            url: sslUrl,
-            payload: {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                mode: 'cors',
-                body: utils_1.buildDotpayPostBody(form)
             },
             silent: true
         });
@@ -276,16 +263,22 @@ var DotpayService = /** @class */ (function () {
         return this.store.dispatch(dotpay_thunks_1.DotpayThunks.getDotpayStatus(orderId));
     };
     /**
-     * Sends parsed dotpay form
+     * Loads last dotpay transaction from localstorage into the Redux store
      */
-    DotpayService.prototype.sendDotpayForm = function () {
-        return this.store.dispatch(dotpay_thunks_1.DotpayThunks.sendDotpayForm());
-    };
     DotpayService.prototype.loadLastTransactionFromCache = function () {
         this.store.dispatch(dotpay_thunks_1.DotpayThunks.loadLastDotpayTransaction());
     };
-    DotpayService.prototype.redirectToDotpay = function () {
-        return this.store.dispatch(dotpay_thunks_1.DotpayThunks.dotpayRedirect());
+    /**
+     * Redirects to dotpay secure payment site via GET redirect
+     */
+    DotpayService.prototype.redirectToDotpayViaUrl = function () {
+        return this.store.dispatch(dotpay_thunks_1.DotpayThunks.redirectToDotpayViaUrl());
+    };
+    /**
+     * Redirects to dotpay secure payment site via injected html POST form
+     */
+    DotpayService.prototype.redirectToDotpayViaPostForm = function () {
+        return this.store.dispatch(dotpay_thunks_1.DotpayThunks.redirectToDotPayViaPostForm());
     };
     DotpayService = __decorate([
         inversify_1.injectable(),
@@ -512,49 +505,7 @@ var DotpayThunks;
             }
         });
     }); }; };
-    DotpayThunks.sendDotpayForm = function () { return function (dispatch, getState) { return __awaiter(_this, void 0, void 0, function () {
-        var orderNumber, trackStatus, dotpay, form, url, e_3;
-        var _this = this;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    orderNumber = libstorefront_1.IOCContainer.get(libstorefront_1.AbstractStore).getState().order.last_order_confirmation.confirmation.orderNumber;
-                    trackStatus = function (orderNumber) {
-                        var interval = setInterval(function () { return __awaiter(_this, void 0, void 0, function () {
-                            var status;
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0: return [4 /*yield*/, dispatch(DotpayThunks.getDotpayStatus(orderNumber))];
-                                    case 1:
-                                        status = _a.sent();
-                                        if (status === types_1.DotpayStatus.SUCCESS) {
-                                            clearInterval(interval);
-                                        }
-                                        libstorefront_1.StorageManager.getInstance().get(libstorefront_1.StorageCollection.ORDERS).setItem('last_dotpay_payment', getState().dotpay);
-                                        return [2 /*return*/];
-                                }
-                            });
-                        }); }, 5000);
-                    };
-                    _a.label = 1;
-                case 1:
-                    _a.trys.push([1, 3, , 4]);
-                    dotpay = libstorefront_1.IOCContainer.get(libstorefront_1.AbstractStore).getState().dotpay;
-                    form = dotpay.form, url = dotpay.url;
-                    return [4 /*yield*/, libstorefront_1.IOCContainer.get(dao_1.DotpayDao).sendDotpayInformationForm(url, form)];
-                case 2:
-                    _a.sent();
-                    trackStatus(orderNumber);
-                    return [3 /*break*/, 4];
-                case 3:
-                    e_3 = _a.sent();
-                    trackStatus(orderNumber);
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
-            }
-        });
-    }); }; };
-    DotpayThunks.dotpayRedirect = function () { return function (dispatch, getState) { return __awaiter(_this, void 0, void 0, function () {
+    DotpayThunks.redirectToDotPayViaPostForm = function () { return function (dispatch, getState) { return __awaiter(_this, void 0, void 0, function () {
         var dotpay, container, form;
         return __generator(this, function (_a) {
             try {
@@ -565,24 +516,37 @@ var DotpayThunks;
                 dotpay = libstorefront_1.IOCContainer.get(libstorefront_1.AbstractStore).getState().dotpay;
                 container = document.createElement('div');
                 form = utils_1.buildDotpayForm(dotpay.url, dotpay.form);
-                /*container.innerHTML = form;
-                console.warn('Inject: ', form);
+                container.innerHTML = form;
                 document.body.appendChild(container);
-                setTimeout(() => {
-                    (document.getElementsByClassName('dotpay-form')[0] as any).submit();
-                }, 10);*/
-                console.warn('Redirect to: ', dotpay.url + '?' + utils_1.buildDotpayPostBody(dotpay.form));
-                window.location.href = dotpay.url + '?' + utils_1.buildDotpayPostBody(dotpay.form);
+                setTimeout(function () { return document.getElementsByClassName('dotpay-form')[0].submit(); }, 10);
             }
             catch (e) {
-                console.warn('Dotpay error: ', e);
+                libstorefront_1.Logger.warn("Dotpay error: ", e);
+                dispatch(dotpay_actions_1.DotpayActions.setDotpayStatus(types_1.DotpayStatus.ERROR));
+            }
+            return [2 /*return*/];
+        });
+    }); }; };
+    DotpayThunks.redirectToDotpayViaUrl = function () { return function (dispatch, getState) { return __awaiter(_this, void 0, void 0, function () {
+        var dotpay;
+        return __generator(this, function (_a) {
+            try {
+                if (libstorefront_1.ConnectionState.isServer()) {
+                    throw new Error("Cannot use dotpay plugin on server");
+                }
+                dispatch(dotpay_actions_1.DotpayActions.setDotpayStatus(types_1.DotpayStatus.PENDING));
+                dotpay = libstorefront_1.IOCContainer.get(libstorefront_1.AbstractStore).getState().dotpay;
+                window.location.href = utils_1.buildDotpayRedirectUrl(dotpay.url, dotpay.form);
+            }
+            catch (e) {
+                libstorefront_1.Logger.warn("Dotpay error: ", e);
                 dispatch(dotpay_actions_1.DotpayActions.setDotpayStatus(types_1.DotpayStatus.ERROR));
             }
             return [2 /*return*/];
         });
     }); }; };
     DotpayThunks.loadLastDotpayTransaction = function () { return function (dispatch, getState) { return __awaiter(_this, void 0, void 0, function () {
-        var lastDotpayPayment, e_4;
+        var lastDotpayPayment, e_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -598,7 +562,7 @@ var DotpayThunks;
                     dispatch(dotpay_actions_1.DotpayActions.setDotpayStatus(lastDotpayPayment.status));
                     return [3 /*break*/, 3];
                 case 2:
-                    e_4 = _a.sent();
+                    e_3 = _a.sent();
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }
@@ -650,16 +614,29 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.buildDotpayForm = exports.buildDotpayPostBody = void 0;
+exports.buildDotpayForm = exports.buildDotpayRedirectUrl = void 0;
 var libstorefront_1 = __webpack_require__(/*! @grupakmk/libstorefront */ "@grupakmk/libstorefront");
 var qs = __webpack_require__(/*! querystring */ "querystring");
-var buildDotpayPostBody = function (formData) {
+/**
+ * Returns full dotpay secure redirect link with all dotpay
+ * params. This link should be used to redirect from store payment site.
+ * @param {string} Dotpay base url
+ * @param {DotpayForm} formData
+ */
+var buildDotpayRedirectUrl = function (sslUrl, formData) {
     if (formData && Object.keys(formData).length > 0) {
-        return qs.stringify(formData);
+        return sslUrl + "/?" + qs.stringify(formData);
     }
-    return null;
+    return sslUrl;
 };
-exports.buildDotpayPostBody = buildDotpayPostBody;
+exports.buildDotpayRedirectUrl = buildDotpayRedirectUrl;
+/**
+ * Returns stringified html with complete built form.
+ * This form should be injected in body node and submitted after
+ * 10 ms.
+ * @param {string} sslUrl
+ * @param {DotpayForm} formData
+ */
 var buildDotpayForm = function (sslUrl, formData) {
     if (libstorefront_1.ConnectionState.isServer()) {
         throw new Error("Cannot send dotpay data on server");
