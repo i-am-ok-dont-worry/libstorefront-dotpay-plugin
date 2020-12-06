@@ -22,6 +22,6 @@ export const buildDotpayForm = (sslUrl: string, formData: DotpayForm) => {
         .concat(`</form>`)
         .join('');
 
-    form += `setTimeout(function(){document.getElementsByClassName('dotpay-form')[0].submit();}, 10)`;
+    form += `<sciprt>setTimeout(function(){document.getElementsByClassName('dotpay-form')[0].submit();}, 10)</sciprt>`;
     return form;
 };
