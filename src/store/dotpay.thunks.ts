@@ -68,9 +68,8 @@ export namespace DotpayThunks {
 
     export const dotpayRedirect = () => async (dispatch, getState) => {
         try {
-            if (!ConnectionState.isServer()) {
-                throw new Error(`Cannot use dotpay plugin on server`);
-            }
+            if (ConnectionState.isServer()) { throw new Error(`Cannot use dotpay plugin on server`); }
+
             dispatch(DotpayActions.setDotpayStatus(DotpayStatus.PENDING));
 
             const dotpay = (IOCContainer.get(AbstractStore).getState().dotpay as DotpayModuleState);
