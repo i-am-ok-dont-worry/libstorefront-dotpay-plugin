@@ -1,6 +1,5 @@
 import { inject, injectable } from 'inversify';
 import { Task, TaskQueue, URLTransform } from '@grupakmk/libstorefront';
-import { DotpayForm } from "../types";
 
 @injectable()
 export class DotpayDao {
