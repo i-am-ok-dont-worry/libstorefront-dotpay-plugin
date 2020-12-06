@@ -37,5 +37,9 @@ export class DotpayService {
         this.store.dispatch(DotpayThunks.loadLastDotpayTransaction());
     }
 
+    public redirectToDotpay (): Promise<void> {
+        return this.store.dispatch(DotpayThunks.dotpayRedirect());
+    }
+
     public constructor(@inject(AbstractStore) private store: AbstractStore<LibstorefrontInnerState>) {}
 }

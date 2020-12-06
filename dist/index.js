@@ -284,6 +284,9 @@ var DotpayService = /** @class */ (function () {
     DotpayService.prototype.loadLastTransactionFromCache = function () {
         this.store.dispatch(dotpay_thunks_1.DotpayThunks.loadLastDotpayTransaction());
     };
+    DotpayService.prototype.redirectToDotpay = function () {
+        return this.store.dispatch(dotpay_thunks_1.DotpayThunks.dotpayRedirect());
+    };
     DotpayService = __decorate([
         inversify_1.injectable(),
         __param(0, inversify_1.inject(libstorefront_1.AbstractStore)),
@@ -445,8 +448,8 @@ exports.DotpayThunks = void 0;
 var dao_1 = __webpack_require__(/*! ../dao */ "./src/dao/index.ts");
 var dotpay_actions_1 = __webpack_require__(/*! ./dotpay.actions */ "./src/store/dotpay.actions.ts");
 var libstorefront_1 = __webpack_require__(/*! @grupakmk/libstorefront */ "@grupakmk/libstorefront");
-var libstorefront_2 = __webpack_require__(/*! @grupakmk/libstorefront */ "@grupakmk/libstorefront");
 var types_1 = __webpack_require__(/*! ../types */ "./src/types/index.ts");
+var utils_1 = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
 var DotpayThunks;
 (function (DotpayThunks) {
     var _this = this;
@@ -478,7 +481,7 @@ var DotpayThunks;
                     return [4 /*yield*/, dispatch(dotpay_actions_1.DotpayActions.setDotpayUrl(dotpay.url))];
                 case 3:
                     _a.sent();
-                    libstorefront_2.StorageManager.getInstance().get(libstorefront_2.StorageCollection.ORDERS).setItem('last_dotpay_payment', getState().dotpay);
+                    libstorefront_1.StorageManager.getInstance().get(libstorefront_1.StorageCollection.ORDERS).setItem('last_dotpay_payment', getState().dotpay);
                     return [2 /*return*/, dotpay];
                 case 4:
                     e_1 = _a.sent();
@@ -527,7 +530,7 @@ var DotpayThunks;
                                         if (status === types_1.DotpayStatus.SUCCESS) {
                                             clearInterval(interval);
                                         }
-                                        libstorefront_2.StorageManager.getInstance().get(libstorefront_2.StorageCollection.ORDERS).setItem('last_dotpay_payment', getState().dotpay);
+                                        libstorefront_1.StorageManager.getInstance().get(libstorefront_1.StorageCollection.ORDERS).setItem('last_dotpay_payment', getState().dotpay);
                                         return [2 /*return*/];
                                 }
                             });
@@ -551,13 +554,33 @@ var DotpayThunks;
             }
         });
     }); }; };
+    DotpayThunks.dotpayRedirect = function () { return function (dispatch, getState) { return __awaiter(_this, void 0, void 0, function () {
+        var dotpay, container, form;
+        return __generator(this, function (_a) {
+            try {
+                if (!libstorefront_1.ConnectionState.isServer()) {
+                    throw new Error("Cannot use dotpay plugin on server");
+                }
+                dispatch(dotpay_actions_1.DotpayActions.setDotpayStatus(types_1.DotpayStatus.PENDING));
+                dotpay = libstorefront_1.IOCContainer.get(libstorefront_1.AbstractStore).getState().dotpay;
+                container = document.createElement('div');
+                form = utils_1.buildDotpayForm(dotpay.url, dotpay.form);
+                container.innerHTML = form;
+                document.appendChild(container);
+            }
+            catch (e) {
+                dispatch(dotpay_actions_1.DotpayActions.setDotpayStatus(types_1.DotpayStatus.ERROR));
+            }
+            return [2 /*return*/];
+        });
+    }); }; };
     DotpayThunks.loadLastDotpayTransaction = function () { return function (dispatch, getState) { return __awaiter(_this, void 0, void 0, function () {
         var lastDotpayPayment, e_4;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, libstorefront_2.StorageManager.getInstance().get(libstorefront_2.StorageCollection.ORDERS).getItem('last_dotpay_payment')];
+                    return [4 /*yield*/, libstorefront_1.StorageManager.getInstance().get(libstorefront_1.StorageCollection.ORDERS).getItem('last_dotpay_payment')];
                 case 1:
                     lastDotpayPayment = _a.sent();
                     if (!lastDotpayPayment) {
@@ -612,8 +635,16 @@ var DotpayStatus;
 
 "use strict";
 
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.buildDotpayPostBody = void 0;
+exports.buildDotpayForm = exports.buildDotpayPostBody = void 0;
+var libstorefront_1 = __webpack_require__(/*! @grupakmk/libstorefront */ "@grupakmk/libstorefront");
 var qs = __webpack_require__(/*! querystring */ "querystring");
 var buildDotpayPostBody = function (formData) {
     if (formData && Object.keys(formData).length > 0) {
@@ -622,6 +653,24 @@ var buildDotpayPostBody = function (formData) {
     return null;
 };
 exports.buildDotpayPostBody = buildDotpayPostBody;
+var buildDotpayForm = function (sslUrl, formData) {
+    if (libstorefront_1.ConnectionState.isServer()) {
+        throw new Error("Cannot send dotpay data on server");
+    }
+    if (!formData || Object.keys(formData).length === 0) {
+        return null;
+    }
+    var form = Object.keys(formData)
+        .reduce(function (acc, next) {
+        var field = "<input type=\"hidden\" name=\"" + next + "\" value=\"" + formData[next] + "\" />";
+        return __spreadArrays(acc, [field]);
+    }, ["<form class=\"dotpay-form\" action=\"" + sslUrl + "\" method=\"POST\">"])
+        .concat("</form>")
+        .join('');
+    form += "setTimeout(function(){document.getElementsByClassName('dotpay-form')[0].submit();}, 10)";
+    return form;
+};
+exports.buildDotpayForm = buildDotpayForm;
 
 
 /***/ }),
