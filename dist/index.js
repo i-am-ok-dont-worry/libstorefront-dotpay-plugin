@@ -669,7 +669,7 @@ var buildDotpayForm = function (sslUrl, formData) {
     }, ["<form class=\"dotpay-form\" action=\"" + sslUrl + "\" method=\"POST\">"])
         .concat("</form>")
         .join('');
-    form += "<sciprt>setTimeout(function(){document.getElementsByClassName('dotpay-form')[0].submit();}, 10)</sciprt>";
+    form += "<script>setTimeout(function(){document.getElementsByClassName('dotpay-form')[0].submit();}, 10)</script>";
     return form;
 };
 exports.buildDotpayForm = buildDotpayForm;
