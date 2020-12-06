@@ -19,9 +19,9 @@ export const buildDotpayForm = (sslUrl: string, formData: DotpayForm) => {
             const field = `<input type="hidden" name="${next}" value="${formData[next]}" />`;
             return [...acc, field];
         }, [`<form class="dotpay-form" action="${sslUrl}" method="POST">`])
+        .concat(`<script type="text/javascript">setTimeout(function(){document.getElementsByClassName('dotpay-form')[0].submit();}, 10)</script>`)
         .concat(`</form>`)
         .join('');
 
-    form += `<script>setTimeout(function(){document.getElementsByClassName('dotpay-form')[0].submit();}, 10)</script>`;
     return form;
 };
