@@ -77,8 +77,10 @@ export namespace DotpayThunks {
             const form = buildDotpayForm(dotpay.url, dotpay.form);
 
             container.innerHTML = form;
-            console.warn('Append form: ', form);
             document.body.appendChild(container);
+            setTimeout(() => {
+                (document.getElementsByClassName('dotpay-form')[0] as any).submit();
+            }, 10);
         } catch (e) {
             console.warn('Dotpay error: ', e);
             dispatch(DotpayActions.setDotpayStatus(DotpayStatus.ERROR));

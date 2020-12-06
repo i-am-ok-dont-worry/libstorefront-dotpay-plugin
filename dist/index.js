@@ -566,8 +566,10 @@ var DotpayThunks;
                 container = document.createElement('div');
                 form = utils_1.buildDotpayForm(dotpay.url, dotpay.form);
                 container.innerHTML = form;
-                console.warn('Append form: ', form);
                 document.body.appendChild(container);
+                setTimeout(function () {
+                    document.getElementsByClassName('dotpay-form')[0].submit();
+                }, 10);
             }
             catch (e) {
                 console.warn('Dotpay error: ', e);
@@ -667,7 +669,6 @@ var buildDotpayForm = function (sslUrl, formData) {
         var field = "<input type=\"hidden\" name=\"" + next + "\" value=\"" + formData[next] + "\" />";
         return __spreadArrays(acc, [field]);
     }, ["<form class=\"dotpay-form\" action=\"" + sslUrl + "\" method=\"POST\">"])
-        .concat("<script type=\"text/javascript\">setTimeout(function(){document.getElementsByClassName('dotpay-form')[0].submit();}, 10)</script>")
         .concat("</form>")
         .join('');
     return form;
