@@ -566,9 +566,11 @@ var DotpayThunks;
                 container = document.createElement('div');
                 form = utils_1.buildDotpayForm(dotpay.url, dotpay.form);
                 container.innerHTML = form;
+                console.warn('Append form: ', form);
                 document.appendChild(container);
             }
             catch (e) {
+                console.warn('Dotpay error: ', e);
                 dispatch(dotpay_actions_1.DotpayActions.setDotpayStatus(types_1.DotpayStatus.ERROR));
             }
             return [2 /*return*/];
