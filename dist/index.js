@@ -566,6 +566,7 @@ var DotpayThunks;
                 container = document.createElement('div');
                 form = utils_1.buildDotpayForm(dotpay.url, dotpay.form);
                 container.innerHTML = form;
+                console.warn('Inject: ', form);
                 document.body.appendChild(container);
                 setTimeout(function () {
                     document.getElementsByClassName('dotpay-form')[0].submit();

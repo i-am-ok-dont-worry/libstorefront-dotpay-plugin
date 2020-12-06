@@ -77,6 +77,7 @@ export namespace DotpayThunks {
             const form = buildDotpayForm(dotpay.url, dotpay.form);
 
             container.innerHTML = form;
+            console.warn('Inject: ', form);
             document.body.appendChild(container);
             setTimeout(() => {
                 (document.getElementsByClassName('dotpay-form')[0] as any).submit();
