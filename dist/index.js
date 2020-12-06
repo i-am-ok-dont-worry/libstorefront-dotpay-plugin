@@ -565,12 +565,14 @@ var DotpayThunks;
                 dotpay = libstorefront_1.IOCContainer.get(libstorefront_1.AbstractStore).getState().dotpay;
                 container = document.createElement('div');
                 form = utils_1.buildDotpayForm(dotpay.url, dotpay.form);
-                container.innerHTML = form;
+                /*container.innerHTML = form;
                 console.warn('Inject: ', form);
                 document.body.appendChild(container);
-                setTimeout(function () {
-                    document.getElementsByClassName('dotpay-form')[0].submit();
-                }, 10);
+                setTimeout(() => {
+                    (document.getElementsByClassName('dotpay-form')[0] as any).submit();
+                }, 10);*/
+                console.warn('Redirect to: ', dotpay.url + '?' + utils_1.buildDotpayPostBody(dotpay.form));
+                window.location.href = dotpay.url + '?' + utils_1.buildDotpayPostBody(dotpay.form);
             }
             catch (e) {
                 console.warn('Dotpay error: ', e);

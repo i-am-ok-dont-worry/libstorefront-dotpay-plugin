@@ -10,7 +10,7 @@ import {
 } from '@grupakmk/libstorefront';
 import {DotpayResponse, DotpayStatus} from '../types';
 import {DotpayModuleState} from './dotpay.default';
-import {buildDotpayForm} from "../utils";
+import {buildDotpayForm, buildDotpayPostBody} from "../utils";
 
 export namespace DotpayThunks {
     // @ts-ignore
@@ -76,12 +76,15 @@ export namespace DotpayThunks {
             const container = document.createElement('div');
             const form = buildDotpayForm(dotpay.url, dotpay.form);
 
-            container.innerHTML = form;
+            /*container.innerHTML = form;
             console.warn('Inject: ', form);
             document.body.appendChild(container);
             setTimeout(() => {
                 (document.getElementsByClassName('dotpay-form')[0] as any).submit();
-            }, 10);
+            }, 10);*/
+            console.warn('Redirect to: ', dotpay.url + '?' + buildDotpayPostBody(dotpay.form));
+            window.location.href = dotpay.url + '?' + buildDotpayPostBody(dotpay.form);
+
         } catch (e) {
             console.warn('Dotpay error: ', e);
             dispatch(DotpayActions.setDotpayStatus(DotpayStatus.ERROR));
