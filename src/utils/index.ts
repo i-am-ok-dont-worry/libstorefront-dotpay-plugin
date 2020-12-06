@@ -12,7 +12,7 @@ export const buildDotpayPostBody = (formData: DotpayForm) => {
 
 
 export const buildDotpayForm = (sslUrl: string, formData: DotpayForm) => {
-    if (ConnectionState.isServer()) { throw new Error(`Cannot send dotpay data on server`); }
+    // if (ConnectionState.isServer()) { throw new Error(`Cannot send dotpay data on server`); }
     if (!formData || Object.keys(formData).length === 0) { return null; }
     let form = Object.keys(formData)
         .reduce((acc, next) => {

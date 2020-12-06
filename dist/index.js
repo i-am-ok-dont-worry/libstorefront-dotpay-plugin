@@ -646,7 +646,6 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buildDotpayForm = exports.buildDotpayPostBody = void 0;
-var libstorefront_1 = __webpack_require__(/*! @grupakmk/libstorefront */ "@grupakmk/libstorefront");
 var qs = __webpack_require__(/*! querystring */ "querystring");
 var buildDotpayPostBody = function (formData) {
     if (formData && Object.keys(formData).length > 0) {
@@ -656,9 +655,7 @@ var buildDotpayPostBody = function (formData) {
 };
 exports.buildDotpayPostBody = buildDotpayPostBody;
 var buildDotpayForm = function (sslUrl, formData) {
-    if (libstorefront_1.ConnectionState.isServer()) {
-        throw new Error("Cannot send dotpay data on server");
-    }
+    // if (ConnectionState.isServer()) { throw new Error(`Cannot send dotpay data on server`); }
     if (!formData || Object.keys(formData).length === 0) {
         return null;
     }
