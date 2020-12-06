@@ -567,7 +567,7 @@ var DotpayThunks;
                 form = utils_1.buildDotpayForm(dotpay.url, dotpay.form);
                 container.innerHTML = form;
                 console.warn('Append form: ', form);
-                document.appendChild(container);
+                document.body.appendChild(container);
             }
             catch (e) {
                 console.warn('Dotpay error: ', e);
