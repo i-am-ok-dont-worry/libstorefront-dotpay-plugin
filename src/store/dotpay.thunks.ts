@@ -1,5 +1,5 @@
-import { DotpayDao } from '../dao';
-import { DotpayActions } from './dotpay.actions';
+import {DotpayDao} from '../dao';
+import {DotpayActions} from './dotpay.actions';
 import {
     AbstractStore,
     ConnectionState,
@@ -8,9 +8,9 @@ import {
     StorageCollection,
     StorageManager
 } from '@grupakmk/libstorefront';
-import { DotpayResponse, DotpayStatus } from '../types';
-import { DotpayModuleState } from './dotpay.default';
-import { buildDotpayForm, buildDotpayRedirectUrl } from '../utils';
+import {DotpayResponse, DotpayStatus} from '../types';
+import {DotpayModuleState} from './dotpay.default';
+import {buildDotpayForm, buildDotpayRedirectUrl} from '../utils';
 
 export namespace DotpayThunks {
     // @ts-ignore
@@ -34,6 +34,7 @@ export namespace DotpayThunks {
             StorageManager.getInstance().get(StorageCollection.ORDERS).setItem('last_dotpay_payment', getState().dotpay);
             return dotpay;
         } catch (e) {
+            dispatch(DotpayActions.setDotpayStatus(DotpayStatus.ERROR));
             return null;
         }
     }
@@ -46,6 +47,7 @@ export namespace DotpayThunks {
             return response.result as DotpayStatus;
         } catch (e) {
             console.warn('Error while fetching status: ', e);
+            dispatch(DotpayActions.setDotpayStatus(DotpayStatus.ERROR));
             return null;
         }
     };

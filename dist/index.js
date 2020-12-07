@@ -501,6 +501,7 @@ var DotpayThunks;
                     return [2 /*return*/, dotpay];
                 case 6:
                     e_1 = _a.sent();
+                    dispatch(dotpay_actions_1.DotpayActions.setDotpayStatus(types_1.DotpayStatus.ERROR));
                     return [2 /*return*/, null];
                 case 7: return [2 /*return*/];
             }
@@ -523,6 +524,7 @@ var DotpayThunks;
                 case 3:
                     e_2 = _a.sent();
                     console.warn('Error while fetching status: ', e_2);
+                    dispatch(dotpay_actions_1.DotpayActions.setDotpayStatus(types_1.DotpayStatus.ERROR));
                     return [2 /*return*/, null];
                 case 4: return [2 /*return*/];
             }
