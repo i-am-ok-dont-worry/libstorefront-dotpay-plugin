@@ -1,4 +1,4 @@
-import { AbstractStore, LibstorefrontInnerState } from '@grupakmk/libstorefront';
+import { AbstractStore, LibstorefrontInnerState, PaymentMethod } from '@grupakmk/libstorefront';
 import { DotpayResponse, DotpayStatus } from '../types';
 export declare class DotpayService {
     private store;
@@ -28,5 +28,11 @@ export declare class DotpayService {
      * Redirects to dotpay secure payment site via injected html POST form
      */
     redirectToPaymentViaPostForm(): Promise<void>;
+    /**
+     * Returns true if payment method can be handled by this plugin
+     * @param {PaymentMethod} paymentMethod
+     * @returns {boolean}
+     */
+    canHandleMethod(paymentMethod: PaymentMethod): boolean;
     constructor(store: AbstractStore<LibstorefrontInnerState>);
 }

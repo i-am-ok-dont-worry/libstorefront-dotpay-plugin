@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { DotpayThunks } from '../store/dotpay.thunks';
-import { AbstractStore, LibstorefrontInnerState, Task } from '@grupakmk/libstorefront';
+import { AbstractStore, LibstorefrontInnerState, PaymentMethod } from '@grupakmk/libstorefront';
 import { DotpayResponse, DotpayStatus } from '../types';
 
 @injectable()
@@ -45,6 +45,15 @@ export class DotpayService {
      */
     public redirectToPaymentViaPostForm (): Promise<void> {
         return this.store.dispatch(DotpayThunks.redirectToDotPayViaPostForm());
+    }
+
+    /**
+     * Returns true if payment method can be handled by this plugin
+     * @param {PaymentMethod} paymentMethod
+     * @returns {boolean}
+     */
+    public canHandleMethod (paymentMethod: PaymentMethod): boolean {
+        return ['payu_gateway'].includes(paymentMethod.code);
     }
 
     public constructor(@inject(AbstractStore) private store: AbstractStore<LibstorefrontInnerState>) {}

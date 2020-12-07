@@ -240,6 +240,14 @@ var DotpayService = /** @class */ (function () {
     DotpayService.prototype.redirectToPaymentViaPostForm = function () {
         return this.store.dispatch(dotpay_thunks_1.DotpayThunks.redirectToDotPayViaPostForm());
     };
+    /**
+     * Returns true if payment method can be handled by this plugin
+     * @param {PaymentMethod} paymentMethod
+     * @returns {boolean}
+     */
+    DotpayService.prototype.canHandleMethod = function (paymentMethod) {
+        return ['payu_gateway'].includes(paymentMethod.code);
+    };
     DotpayService = __decorate([
         inversify_1.injectable(),
         __param(0, inversify_1.inject(libstorefront_1.AbstractStore)),
