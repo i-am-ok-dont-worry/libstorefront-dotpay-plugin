@@ -8,12 +8,12 @@ export class DotpayService {
 
     /**
      * Returns dotpay form object that can be used
-     * to build valid DotPay redirect link. Form is 
+     * to build valid DotPay redirect link. Form is
      * stored in the redux dotpay state under 'form' property.
      * @param {number} orderId
      * @returns {Promise<DotpayResponse>} Dotpay embeddable form
      */
-    public getDotpayPaymentForm (orderId: string): Promise<DotpayResponse> {
+    public preparePayment (orderId: string): Promise<DotpayResponse> {
         return this.store.dispatch(DotpayThunks.getDotpayForm(orderId));
     }
 
@@ -22,7 +22,7 @@ export class DotpayService {
      * @param {string} orderId
      * @returns {Promise<DotpayStatus>} Payment status
      */
-    public getDotpayPaymentStatus (orderId: string): Promise<DotpayStatus> {
+    public getPaymentStatus (orderId: string): Promise<DotpayStatus> {
         return this.store.dispatch(DotpayThunks.getDotpayStatus(orderId));
     }
 

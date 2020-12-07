@@ -211,7 +211,7 @@ var DotpayService = /** @class */ (function () {
      * @param {number} orderId
      * @returns {Promise<DotpayResponse>} Dotpay embeddable form
      */
-    DotpayService.prototype.getDotpayPaymentForm = function (orderId) {
+    DotpayService.prototype.preparePayment = function (orderId) {
         return this.store.dispatch(dotpay_thunks_1.DotpayThunks.getDotpayForm(orderId));
     };
     /**
@@ -219,7 +219,7 @@ var DotpayService = /** @class */ (function () {
      * @param {string} orderId
      * @returns {Promise<DotpayStatus>} Payment status
      */
-    DotpayService.prototype.getDotpayPaymentStatus = function (orderId) {
+    DotpayService.prototype.getPaymentStatus = function (orderId) {
         return this.store.dispatch(dotpay_thunks_1.DotpayThunks.getDotpayStatus(orderId));
     };
     /**

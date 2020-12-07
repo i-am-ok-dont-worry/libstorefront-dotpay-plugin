@@ -9,13 +9,13 @@ export declare class DotpayService {
      * @param {number} orderId
      * @returns {Promise<DotpayResponse>} Dotpay embeddable form
      */
-    getDotpayPaymentForm(orderId: string): Promise<DotpayResponse>;
+    preparePayment(orderId: string): Promise<DotpayResponse>;
     /**
      * Returns dotpay payment status for selected order
      * @param {string} orderId
      * @returns {Promise<DotpayStatus>} Payment status
      */
-    getDotpayPaymentStatus(orderId: string): Promise<DotpayStatus>;
+    getPaymentStatus(orderId: string): Promise<DotpayStatus>;
     /**
      * Loads last dotpay transaction from localstorage into the Redux store
      */
