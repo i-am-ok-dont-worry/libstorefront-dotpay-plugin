@@ -7,11 +7,11 @@ import { DotpayResponse, DotpayStatus } from '../types';
 export class DotpayService {
 
     /**
-     * Returns dotpay form that should be POST send
-     * as application/x-www-form-urlencoded form
-     * into a checkout payment pending page
+     * Returns dotpay form object that can be used
+     * to build valid DotPay redirect link. Form is 
+     * stored in the redux dotpay state under 'form' property.
      * @param {number} orderId
-     * @returns {Promise<any>} Dotpay embeddable form
+     * @returns {Promise<DotpayResponse>} Dotpay embeddable form
      */
     public getDotpayPaymentForm (orderId: string): Promise<DotpayResponse> {
         return this.store.dispatch(DotpayThunks.getDotpayForm(orderId));
@@ -36,14 +36,14 @@ export class DotpayService {
     /**
      * Redirects to dotpay secure payment site via GET redirect
      */
-    public redirectToDotpayViaUrl (): Promise<void> {
+    public redirectToPaymentViaUrl (): Promise<void> {
         return this.store.dispatch(DotpayThunks.redirectToDotpayViaUrl());
     }
 
     /**
      * Redirects to dotpay secure payment site via injected html POST form
      */
-    public redirectToDotpayViaPostForm (): Promise<void> {
+    public redirectToPaymentViaPostForm (): Promise<void> {
         return this.store.dispatch(DotpayThunks.redirectToDotPayViaPostForm());
     }
 
