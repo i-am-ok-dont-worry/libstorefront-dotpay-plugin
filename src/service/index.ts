@@ -53,7 +53,7 @@ export class DotpayService {
      * @returns {boolean}
      */
     public canHandleMethod (paymentMethod: PaymentMethod): boolean {
-        return ['payu_gateway'].includes(paymentMethod.code);
+        return ['dotpay_other', 'dotpay_widget'].includes(paymentMethod.code);
     }
 
     public constructor(@inject(AbstractStore) private store: AbstractStore<LibstorefrontInnerState>) {}

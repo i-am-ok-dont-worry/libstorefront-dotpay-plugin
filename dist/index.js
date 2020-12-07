@@ -246,7 +246,7 @@ var DotpayService = /** @class */ (function () {
      * @returns {boolean}
      */
     DotpayService.prototype.canHandleMethod = function (paymentMethod) {
-        return ['payu_gateway'].includes(paymentMethod.code);
+        return ['dotpay_other', 'dotpay_widget'].includes(paymentMethod.code);
     };
     DotpayService = __decorate([
         inversify_1.injectable(),
