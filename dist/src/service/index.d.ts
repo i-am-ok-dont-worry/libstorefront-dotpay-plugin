@@ -3,11 +3,11 @@ import { DotpayResponse, DotpayStatus } from '../types';
 export declare class DotpayService {
     private store;
     /**
-     * Returns dotpay form that should be POST send
-     * as application/x-www-form-urlencoded form
-     * into a checkout payment pending page
+     * Returns dotpay form object that can be used
+     * to build valid DotPay redirect link. Form is
+     * stored in the redux dotpay state under 'form' property.
      * @param {number} orderId
-     * @returns {Promise<any>} Dotpay embeddable form
+     * @returns {Promise<DotpayResponse>} Dotpay embeddable form
      */
     getDotpayPaymentForm(orderId: string): Promise<DotpayResponse>;
     /**
@@ -23,10 +23,10 @@ export declare class DotpayService {
     /**
      * Redirects to dotpay secure payment site via GET redirect
      */
-    redirectToDotpayViaUrl(): Promise<void>;
+    redirectToPaymentViaUrl(): Promise<void>;
     /**
      * Redirects to dotpay secure payment site via injected html POST form
      */
-    redirectToDotpayViaPostForm(): Promise<void>;
+    redirectToPaymentViaPostForm(): Promise<void>;
     constructor(store: AbstractStore<LibstorefrontInnerState>);
 }

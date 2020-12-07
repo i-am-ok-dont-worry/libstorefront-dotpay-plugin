@@ -91,39 +91,17 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./index.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
-/******/ ({
+/******/ ([
+/* 0 */
+/***/ (function(module, exports) {
 
-/***/ "./index.ts":
-/*!******************!*\
-  !*** ./index.ts ***!
-  \******************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.DotpayStatus = exports.DotpayDao = exports.DotpayService = exports.DotpayPaymentPlugin = void 0;
-var index_1 = __webpack_require__(/*! ./src/index */ "./src/index.ts");
-Object.defineProperty(exports, "DotpayPaymentPlugin", { enumerable: true, get: function () { return index_1.DotpayPaymentPlugin; } });
-var index_2 = __webpack_require__(/*! ./src/service/index */ "./src/service/index.ts");
-Object.defineProperty(exports, "DotpayService", { enumerable: true, get: function () { return index_2.DotpayService; } });
-var index_3 = __webpack_require__(/*! ./src/dao/index */ "./src/dao/index.ts");
-Object.defineProperty(exports, "DotpayDao", { enumerable: true, get: function () { return index_3.DotpayDao; } });
-var index_4 = __webpack_require__(/*! ./src/types/index */ "./src/types/index.ts");
-Object.defineProperty(exports, "DotpayStatus", { enumerable: true, get: function () { return index_4.DotpayStatus; } });
-
+module.exports = require("@grupakmk/libstorefront");
 
 /***/ }),
-
-/***/ "./src/dao/index.ts":
-/*!**************************!*\
-  !*** ./src/dao/index.ts ***!
-  \**************************/
-/*! no static exports found */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -142,8 +120,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DotpayDao = void 0;
-var inversify_1 = __webpack_require__(/*! inversify */ "inversify");
-var libstorefront_1 = __webpack_require__(/*! @grupakmk/libstorefront */ "@grupakmk/libstorefront");
+var inversify_1 = __webpack_require__(4);
+var libstorefront_1 = __webpack_require__(0);
 var DotpayDao = /** @class */ (function () {
     function DotpayDao(taskQueue) {
         this.taskQueue = taskQueue;
@@ -181,44 +159,26 @@ exports.DotpayDao = DotpayDao;
 
 
 /***/ }),
-
-/***/ "./src/index.ts":
-/*!**********************!*\
-  !*** ./src/index.ts ***!
-  \**********************/
-/*! no static exports found */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DotpayPaymentPlugin = void 0;
-var libstorefront_1 = __webpack_require__(/*! @grupakmk/libstorefront */ "@grupakmk/libstorefront");
-var service_1 = __webpack_require__(/*! ./service */ "./src/service/index.ts");
-var dao_1 = __webpack_require__(/*! ./dao */ "./src/dao/index.ts");
-var dotpay_reducer_1 = __webpack_require__(/*! ./store/dotpay.reducer */ "./src/store/dotpay.reducer.ts");
-var dotpay_default_1 = __webpack_require__(/*! ./store/dotpay.default */ "./src/store/dotpay.default.ts");
-/**
- * Libstorefront plugin template
- */
-var DotpayPaymentPlugin = function (libstorefront) {
-    libstorefront.getIOCContainer().bind(service_1.DotpayService).to(service_1.DotpayService);
-    libstorefront.getIOCContainer().bind(dao_1.DotpayDao).to(dao_1.DotpayDao);
-    libstorefront.listenTo(libstorefront_1.HookType.AfterCoreModulesRegistered, function (lsf) {
-        lsf.registerModule(libstorefront_1.createLibstorefrontModule('dotpay', dotpay_reducer_1.dotpayReducer, dotpay_default_1.DotpayDefaultState));
-    });
-    libstorefront.listenTo(libstorefront_1.HookType.AfterInit, function () { return libstorefront.getIOCContainer().get(service_1.DotpayService).loadLastTransactionFromCache(); });
-};
-exports.DotpayPaymentPlugin = DotpayPaymentPlugin;
+exports.DotpayStatus = void 0;
+var DotpayStatus;
+(function (DotpayStatus) {
+    DotpayStatus[DotpayStatus["NOT_EXISTS"] = 1] = "NOT_EXISTS";
+    DotpayStatus[DotpayStatus["ERROR"] = 0] = "ERROR";
+    DotpayStatus[DotpayStatus["PENDING"] = 1] = "PENDING";
+    DotpayStatus[DotpayStatus["SUCCESS"] = 2] = "SUCCESS";
+    DotpayStatus[DotpayStatus["TOO_MANY"] = 3] = "TOO_MANY";
+    DotpayStatus[DotpayStatus["OTHER_STATUS"] = 4] = "OTHER_STATUS"; // Status different than ERROR or PENDING
+})(DotpayStatus = exports.DotpayStatus || (exports.DotpayStatus = {}));
 
 
 /***/ }),
-
-/***/ "./src/service/index.ts":
-/*!******************************!*\
-  !*** ./src/service/index.ts ***!
-  \******************************/
-/*! no static exports found */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -237,19 +197,19 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DotpayService = void 0;
-var inversify_1 = __webpack_require__(/*! inversify */ "inversify");
-var dotpay_thunks_1 = __webpack_require__(/*! ../store/dotpay.thunks */ "./src/store/dotpay.thunks.ts");
-var libstorefront_1 = __webpack_require__(/*! @grupakmk/libstorefront */ "@grupakmk/libstorefront");
+var inversify_1 = __webpack_require__(4);
+var dotpay_thunks_1 = __webpack_require__(9);
+var libstorefront_1 = __webpack_require__(0);
 var DotpayService = /** @class */ (function () {
     function DotpayService(store) {
         this.store = store;
     }
     /**
-     * Returns dotpay form that should be POST send
-     * as application/x-www-form-urlencoded form
-     * into a checkout payment pending page
+     * Returns dotpay form object that can be used
+     * to build valid DotPay redirect link. Form is
+     * stored in the redux dotpay state under 'form' property.
      * @param {number} orderId
-     * @returns {Promise<any>} Dotpay embeddable form
+     * @returns {Promise<DotpayResponse>} Dotpay embeddable form
      */
     DotpayService.prototype.getDotpayPaymentForm = function (orderId) {
         return this.store.dispatch(dotpay_thunks_1.DotpayThunks.getDotpayForm(orderId));
@@ -271,13 +231,13 @@ var DotpayService = /** @class */ (function () {
     /**
      * Redirects to dotpay secure payment site via GET redirect
      */
-    DotpayService.prototype.redirectToDotpayViaUrl = function () {
+    DotpayService.prototype.redirectToPaymentViaUrl = function () {
         return this.store.dispatch(dotpay_thunks_1.DotpayThunks.redirectToDotpayViaUrl());
     };
     /**
      * Redirects to dotpay secure payment site via injected html POST form
      */
-    DotpayService.prototype.redirectToDotpayViaPostForm = function () {
+    DotpayService.prototype.redirectToPaymentViaPostForm = function () {
         return this.store.dispatch(dotpay_thunks_1.DotpayThunks.redirectToDotPayViaPostForm());
     };
     DotpayService = __decorate([
@@ -291,12 +251,13 @@ exports.DotpayService = DotpayService;
 
 
 /***/ }),
+/* 4 */
+/***/ (function(module, exports) {
 
-/***/ "./src/store/dotpay.actions.ts":
-/*!*************************************!*\
-  !*** ./src/store/dotpay.actions.ts ***!
-  \*************************************/
-/*! no static exports found */
+module.exports = require("inversify");
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -325,19 +286,14 @@ var DotpayActions;
 
 
 /***/ }),
-
-/***/ "./src/store/dotpay.default.ts":
-/*!*************************************!*\
-  !*** ./src/store/dotpay.default.ts ***!
-  \*************************************/
-/*! no static exports found */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DotpayDefaultState = void 0;
-var types_1 = __webpack_require__(/*! ../types */ "./src/types/index.ts");
+var types_1 = __webpack_require__(2);
 exports.DotpayDefaultState = {
     form: null,
     url: null,
@@ -346,56 +302,52 @@ exports.DotpayDefaultState = {
 
 
 /***/ }),
-
-/***/ "./src/store/dotpay.reducer.ts":
-/*!*************************************!*\
-  !*** ./src/store/dotpay.reducer.ts ***!
-  \*************************************/
-/*! no static exports found */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.dotpayReducer = void 0;
-var dotpay_default_1 = __webpack_require__(/*! ./dotpay.default */ "./src/store/dotpay.default.ts");
-var dotpay_actions_1 = __webpack_require__(/*! ./dotpay.actions */ "./src/store/dotpay.actions.ts");
-var dotpayReducer = function (state, action) {
-    if (state === void 0) { state = dotpay_default_1.DotpayDefaultState; }
-    switch (action.type) {
-        case dotpay_actions_1.DotpayActions.SET_DOTPAY_FORM: {
-            return __assign(__assign({}, state), { form: action.payload });
-        }
-        case dotpay_actions_1.DotpayActions.SET_DOTPAY_STATUS: {
-            return __assign(__assign({}, state), { status: action.payload });
-        }
-        case dotpay_actions_1.DotpayActions.SET_DOTPAY_URL: {
-            return __assign(__assign({}, state), { url: action.payload });
-        }
-        default: return state || dotpay_default_1.DotpayDefaultState;
-    }
-};
-exports.dotpayReducer = dotpayReducer;
+exports.DotpayStatus = exports.DotpayDao = exports.DotpayService = exports.DotpayPaymentPlugin = void 0;
+var index_1 = __webpack_require__(8);
+Object.defineProperty(exports, "DotpayPaymentPlugin", { enumerable: true, get: function () { return index_1.DotpayPaymentPlugin; } });
+var index_2 = __webpack_require__(3);
+Object.defineProperty(exports, "DotpayService", { enumerable: true, get: function () { return index_2.DotpayService; } });
+var index_3 = __webpack_require__(1);
+Object.defineProperty(exports, "DotpayDao", { enumerable: true, get: function () { return index_3.DotpayDao; } });
+var index_4 = __webpack_require__(2);
+Object.defineProperty(exports, "DotpayStatus", { enumerable: true, get: function () { return index_4.DotpayStatus; } });
 
 
 /***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
 
-/***/ "./src/store/dotpay.thunks.ts":
-/*!************************************!*\
-  !*** ./src/store/dotpay.thunks.ts ***!
-  \************************************/
-/*! no static exports found */
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.DotpayPaymentPlugin = void 0;
+var libstorefront_1 = __webpack_require__(0);
+var service_1 = __webpack_require__(3);
+var dao_1 = __webpack_require__(1);
+var dotpay_reducer_1 = __webpack_require__(12);
+var dotpay_default_1 = __webpack_require__(6);
+/**
+ * Libstorefront plugin template
+ */
+var DotpayPaymentPlugin = function (libstorefront) {
+    libstorefront.getIOCContainer().bind(service_1.DotpayService).to(service_1.DotpayService);
+    libstorefront.getIOCContainer().bind(dao_1.DotpayDao).to(dao_1.DotpayDao);
+    libstorefront.listenTo(libstorefront_1.HookType.AfterCoreModulesRegistered, function (lsf) {
+        lsf.registerModule(libstorefront_1.createLibstorefrontModule('dotpay', dotpay_reducer_1.dotpayReducer, dotpay_default_1.DotpayDefaultState));
+    });
+    libstorefront.listenTo(libstorefront_1.HookType.AfterInit, function () { return libstorefront.getIOCContainer().get(service_1.DotpayService).loadLastTransactionFromCache(); });
+};
+exports.DotpayPaymentPlugin = DotpayPaymentPlugin;
+
+
+/***/ }),
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -438,11 +390,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DotpayThunks = void 0;
-var dao_1 = __webpack_require__(/*! ../dao */ "./src/dao/index.ts");
-var dotpay_actions_1 = __webpack_require__(/*! ./dotpay.actions */ "./src/store/dotpay.actions.ts");
-var libstorefront_1 = __webpack_require__(/*! @grupakmk/libstorefront */ "@grupakmk/libstorefront");
-var types_1 = __webpack_require__(/*! ../types */ "./src/types/index.ts");
-var utils_1 = __webpack_require__(/*! ../utils */ "./src/utils/index.ts");
+var dao_1 = __webpack_require__(1);
+var dotpay_actions_1 = __webpack_require__(5);
+var libstorefront_1 = __webpack_require__(0);
+var types_1 = __webpack_require__(2);
+var utils_1 = __webpack_require__(10);
 var DotpayThunks;
 (function (DotpayThunks) {
     var _this = this;
@@ -576,36 +528,7 @@ var DotpayThunks;
 
 
 /***/ }),
-
-/***/ "./src/types/index.ts":
-/*!****************************!*\
-  !*** ./src/types/index.ts ***!
-  \****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.DotpayStatus = void 0;
-var DotpayStatus;
-(function (DotpayStatus) {
-    DotpayStatus[DotpayStatus["NOT_EXISTS"] = 1] = "NOT_EXISTS";
-    DotpayStatus[DotpayStatus["ERROR"] = 0] = "ERROR";
-    DotpayStatus[DotpayStatus["PENDING"] = 1] = "PENDING";
-    DotpayStatus[DotpayStatus["SUCCESS"] = 2] = "SUCCESS";
-    DotpayStatus[DotpayStatus["TOO_MANY"] = 3] = "TOO_MANY";
-    DotpayStatus[DotpayStatus["OTHER_STATUS"] = 4] = "OTHER_STATUS"; // Status different than ERROR or PENDING
-})(DotpayStatus = exports.DotpayStatus || (exports.DotpayStatus = {}));
-
-
-/***/ }),
-
-/***/ "./src/utils/index.ts":
-/*!****************************!*\
-  !*** ./src/utils/index.ts ***!
-  \****************************/
-/*! no static exports found */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -619,8 +542,8 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buildDotpayForm = exports.buildDotpayRedirectUrl = void 0;
-var libstorefront_1 = __webpack_require__(/*! @grupakmk/libstorefront */ "@grupakmk/libstorefront");
-var qs = __webpack_require__(/*! querystring */ "querystring");
+var libstorefront_1 = __webpack_require__(0);
+var qs = __webpack_require__(11);
 /**
  * Returns full dotpay secure redirect link with all dotpay
  * params. This link should be used to redirect from store payment site.
@@ -662,40 +585,51 @@ exports.buildDotpayForm = buildDotpayForm;
 
 
 /***/ }),
-
-/***/ "@grupakmk/libstorefront":
-/*!******************************************!*\
-  !*** external "@grupakmk/libstorefront" ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("@grupakmk/libstorefront");
-
-/***/ }),
-
-/***/ "inversify":
-/*!****************************!*\
-  !*** external "inversify" ***!
-  \****************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("inversify");
-
-/***/ }),
-
-/***/ "querystring":
-/*!******************************!*\
-  !*** external "querystring" ***!
-  \******************************/
-/*! no static exports found */
+/* 11 */
 /***/ (function(module, exports) {
 
 module.exports = require("querystring");
 
-/***/ })
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
 
-/******/ });
+"use strict";
+
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.dotpayReducer = void 0;
+var dotpay_default_1 = __webpack_require__(6);
+var dotpay_actions_1 = __webpack_require__(5);
+var dotpayReducer = function (state, action) {
+    if (state === void 0) { state = dotpay_default_1.DotpayDefaultState; }
+    switch (action.type) {
+        case dotpay_actions_1.DotpayActions.SET_DOTPAY_FORM: {
+            return __assign(__assign({}, state), { form: action.payload });
+        }
+        case dotpay_actions_1.DotpayActions.SET_DOTPAY_STATUS: {
+            return __assign(__assign({}, state), { status: action.payload });
+        }
+        case dotpay_actions_1.DotpayActions.SET_DOTPAY_URL: {
+            return __assign(__assign({}, state), { url: action.payload });
+        }
+        default: return state || dotpay_default_1.DotpayDefaultState;
+    }
+};
+exports.dotpayReducer = dotpayReducer;
+
+
+/***/ })
+/******/ ]);
 });
 //# sourceMappingURL=index.js.map
