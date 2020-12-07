@@ -16,4 +16,9 @@ export declare namespace DotpayActions {
         type: string;
         payload: DotpayStatus;
     };
+    const SET_DOTPAY_ORDER_NUMBER: string;
+    const setDotpayOrderNumber: (orderNumber: string) => {
+        type: string;
+        payload: string;
+    };
 }

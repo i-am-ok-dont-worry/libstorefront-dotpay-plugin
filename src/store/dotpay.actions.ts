@@ -19,4 +19,10 @@ export namespace DotpayActions {
         type: SET_DOTPAY_STATUS,
         payload: status
     });
+
+    export const SET_DOTPAY_ORDER_NUMBER = SN_DOTPAY + '/SET_ORDER_NUMBER';
+    export const setDotpayOrderNumber = (orderNumber: string) => ({
+        type: SET_DOTPAY_ORDER_NUMBER,
+        payload: orderNumber
+    });
 }

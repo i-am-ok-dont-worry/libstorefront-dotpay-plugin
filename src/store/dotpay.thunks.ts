@@ -23,7 +23,6 @@ export namespace DotpayThunks {
                 const [data] = response.result;
                 if (data && data.hasOwnProperty('url')) {
                     dotpay = data;
-                    Object.assign(dotpay.data, { magentoOrder: lastOrderId });
                 }
             } else {
                 if (response.result && response.result.hasOwnProperty('url')) { dotpay = response.result; }
@@ -31,6 +30,7 @@ export namespace DotpayThunks {
 
             await dispatch(DotpayActions.setDotpayForm(dotpay.data));
             await dispatch(DotpayActions.setDotpayUrl(dotpay.url));
+            await dispatch(DotpayActions.setDotpayOrderNumber(lastOrderId));
             StorageManager.getInstance().get(StorageCollection.ORDERS).setItem('last_dotpay_payment', getState().dotpay);
             return dotpay;
         } catch (e) {
@@ -89,6 +89,7 @@ export namespace DotpayThunks {
             dispatch(DotpayActions.setDotpayUrl(lastDotpayPayment.url));
             dispatch(DotpayActions.setDotpayForm(lastDotpayPayment.form));
             dispatch(DotpayActions.setDotpayStatus(lastDotpayPayment.status));
+            dispatch(DotpayActions.setDotpayOrderNumber(lastDotpayPayment.orderNumber));
         } catch (e) {}
     }
 }
