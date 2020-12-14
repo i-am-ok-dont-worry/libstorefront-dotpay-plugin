@@ -1,5 +1,5 @@
 {
-  "name": "libstorefront-plugin-template",
+  "name": "libstorefront-dotpay-plugin",
   "version": "1.0.0",
   "description": "Plugin template for Libstorefront",
   "main": "dist/index.js",
