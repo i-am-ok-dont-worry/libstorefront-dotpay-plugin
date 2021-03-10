@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="54708263-0784-4ba3-92e4-da70a39f759a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/dotpay.thunks.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/dotpay.thunks.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/index.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,12 +20,6 @@
   </component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="tSDvcGQx" />
-  </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="1920" />
-    <option name="y" value="121" />
-    <option name="width" value="1920" />
-    <option name="height" value="959" />
   </component>
   <component name="ProjectId" id="1l3EwWF96H8ck9Q23vRBraYLWSX" />
   <component name="PropertiesComponent">
@@ -74,6 +68,9 @@
       <workItem from="1607113887254" duration="3133000" />
       <workItem from="1607278431272" duration="9679000" />
       <workItem from="1607338832609" duration="2646000" />
+      <workItem from="1607640726957" duration="17000" />
+      <workItem from="1610376785621" duration="26000" />
+      <workItem from="1610401822708" duration="14000" />
     </task>
     <servers />
   </component>

@@ -612,7 +612,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DotpayStatus = void 0;
 var DotpayStatus;
 (function (DotpayStatus) {
-    DotpayStatus[DotpayStatus["NOT_EXISTS"] = 1] = "NOT_EXISTS";
+    DotpayStatus[DotpayStatus["NOT_EXISTS"] = -1] = "NOT_EXISTS";
     DotpayStatus[DotpayStatus["ERROR"] = 0] = "ERROR";
     DotpayStatus[DotpayStatus["PENDING"] = 1] = "PENDING";
     DotpayStatus[DotpayStatus["SUCCESS"] = 2] = "SUCCESS";

@@ -1,5 +1,5 @@
 {
-  "name": "libstorefront-plugin-template",
+  "name": "@grupakmk/libstorefront-plugin-template",
   "version": "1.0.0",
   "description": "Plugin template for Libstorefront",
   "main": "dist/index.js",
@@ -39,6 +39,6 @@
     "webpack-node-externals": "^2.5.2"
   },
   "publishConfig": {
-    "@grupakmk:registry": "https://gitlab.com/api/v4/projects/22810671/packages/npm/"
+    "@grupakmk:registry": "https://npm.grupakmk.pl/"
   }
 }

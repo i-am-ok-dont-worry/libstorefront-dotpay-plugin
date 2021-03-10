@@ -30,7 +30,7 @@ export interface DotpayResponse {
     data: DotpayForm;
 }
 export declare enum DotpayStatus {
-    NOT_EXISTS = 1,
+    NOT_EXISTS = -1,
     ERROR = 0,
     PENDING = 1,
     SUCCESS = 2,
