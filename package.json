@@ -1,7 +1,7 @@
 {
-  "name": "@grupakmk/libstorefront-plugin-template",
+  "name": "@grupakmk/libstorefront-dotpay-plugin",
   "version": "1.0.0",
-  "description": "Plugin template for Libstorefront",
+  "description": "Plugin for one-click Dotpay payment",
   "main": "dist/index.js",
   "types": "dist/index.d.js",
   "scripts": {

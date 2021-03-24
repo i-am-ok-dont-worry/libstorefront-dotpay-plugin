@@ -1,11 +1,13 @@
-index.ts
 jest.config.js
 test.ts
 tsconfig.json
 webpack.config.js
 yarn.lock
+index.ts
+package-lock.json
 node_modules/
 build/
 docs/
 tests/
 src/
+.idea
