@@ -2,20 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="54708263-0784-4ba3-92e4-da70a39f759a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.npmignore" beforeDir="false" afterPath="$PROJECT_DIR$/.npmignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/index.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/src/dao/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/src/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/src/service/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/src/store/dotpay.actions.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/src/store/dotpay.default.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/src/store/dotpay.reducer.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/src/store/dotpay.thunks.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/src/types/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/src/utils/index.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/index.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/index.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -83,7 +73,10 @@
       <workItem from="1607640726957" duration="17000" />
       <workItem from="1610376785621" duration="26000" />
       <workItem from="1610401822708" duration="14000" />
-      <workItem from="1616599868934" duration="54000" />
+      <workItem from="1616599868934" duration="111000" />
+      <workItem from="1617092368217" duration="707000" />
+      <workItem from="1618219539458" duration="1852000" />
+      <workItem from="1618566040312" duration="222000" />
     </task>
     <servers />
   </component>

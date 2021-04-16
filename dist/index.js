@@ -206,8 +206,9 @@ var DotpayPaymentPlugin = function (libstorefront) {
     libstorefront.getIOCContainer().bind(dao_1.DotpayDao).to(dao_1.DotpayDao);
     libstorefront.listenTo(libstorefront_1.HookType.AfterCoreModulesRegistered, function (lsf) {
         lsf.registerModule(libstorefront_1.createLibstorefrontModule('dotpay', dotpay_reducer_1.dotpayReducer, dotpay_default_1.DotpayDefaultState));
+        libstorefront.getIOCContainer().get(service_1.DotpayService).loadLastTransactionFromCache();
     });
-    libstorefront.listenTo(libstorefront_1.HookType.AfterInit, function () { return libstorefront.getIOCContainer().get(service_1.DotpayService).loadLastTransactionFromCache(); });
+    // libstorefront.listenTo(HookType.AfterInit, () => libstorefront.getIOCContainer().get(DotpayService).loadLastTransactionFromCache());
 };
 exports.DotpayPaymentPlugin = DotpayPaymentPlugin;
 
