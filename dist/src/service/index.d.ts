@@ -1,4 +1,4 @@
-import { AbstractStore, LibstorefrontInnerState, PaymentMethod } from '@grupakmk/libstorefront';
+import { AbstractStore, LibstorefrontInnerState } from '@grupakmk/libstorefront';
 import { DotpayResponse, DotpayStatus } from '../types';
 export declare class DotpayService {
     private store;
@@ -33,6 +33,6 @@ export declare class DotpayService {
      * @param {PaymentMethod} paymentMethod
      * @returns {boolean}
      */
-    canHandleMethod(paymentMethod: PaymentMethod): boolean;
+    canHandleMethod(paymentMethod: any): boolean;
     constructor(store: AbstractStore<LibstorefrontInnerState>);
 }

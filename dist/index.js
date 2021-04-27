@@ -170,10 +170,11 @@ var DotpayDao = /** @class */ (function () {
             silent: true
         });
     };
+    var _a;
     DotpayDao = __decorate([
         inversify_1.injectable(),
         __param(0, inversify_1.inject(libstorefront_1.TaskQueue)),
-        __metadata("design:paramtypes", [libstorefront_1.TaskQueue])
+        __metadata("design:paramtypes", [typeof (_a = typeof libstorefront_1.TaskQueue !== "undefined" && libstorefront_1.TaskQueue) === "function" ? _a : Object])
     ], DotpayDao);
     return DotpayDao;
 }());
@@ -206,9 +207,11 @@ var DotpayPaymentPlugin = function (libstorefront) {
     libstorefront.getIOCContainer().bind(dao_1.DotpayDao).to(dao_1.DotpayDao);
     libstorefront.listenTo(libstorefront_1.HookType.AfterCoreModulesRegistered, function (lsf) {
         lsf.registerModule(libstorefront_1.createLibstorefrontModule('dotpay', dotpay_reducer_1.dotpayReducer, dotpay_default_1.DotpayDefaultState));
+    });
+    libstorefront.listenTo(libstorefront_1.HookType.AfterInit, function () {
+        debugger;
         libstorefront.getIOCContainer().get(service_1.DotpayService).loadLastTransactionFromCache();
     });
-    // libstorefront.listenTo(HookType.AfterInit, () => libstorefront.getIOCContainer().get(DotpayService).loadLastTransactionFromCache());
 };
 exports.DotpayPaymentPlugin = DotpayPaymentPlugin;
 
@@ -289,10 +292,11 @@ var DotpayService = /** @class */ (function () {
     DotpayService.prototype.canHandleMethod = function (paymentMethod) {
         return ['dotpay_other', 'dotpay_widget'].includes(paymentMethod.code);
     };
+    var _a;
     DotpayService = __decorate([
         inversify_1.injectable(),
         __param(0, inversify_1.inject(libstorefront_1.AbstractStore)),
-        __metadata("design:paramtypes", [libstorefront_1.AbstractStore])
+        __metadata("design:paramtypes", [typeof (_a = typeof libstorefront_1.AbstractStore !== "undefined" && libstorefront_1.AbstractStore) === "function" ? _a : Object])
     ], DotpayService);
     return DotpayService;
 }());
@@ -633,12 +637,10 @@ var DotpayStatus;
 
 "use strict";
 
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
+var __spreadArray = (this && this.__spreadArray) || function (to, from) {
+    for (var i = 0, il = from.length, j = to.length; i < il; i++, j++)
+        to[j] = from[i];
+    return to;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.buildDotpayForm = exports.buildDotpayRedirectUrl = void 0;
@@ -675,7 +677,7 @@ var buildDotpayForm = function (sslUrl, formData) {
         .filter(function (k) { return k !== 'magentoOrder'; })
         .reduce(function (acc, next) {
         var field = "<input type=\"hidden\" name=\"" + next + "\" value=\"" + formData[next] + "\" />";
-        return __spreadArrays(acc, [field]);
+        return __spreadArray(__spreadArray([], acc), [field]);
     }, ["<form class=\"dotpay-form\" action=\"" + sslUrl + "\" method=\"POST\">"])
         .concat("</form>")
         .join('');

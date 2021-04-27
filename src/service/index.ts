@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { DotpayThunks } from '../store/dotpay.thunks';
-import { AbstractStore, LibstorefrontInnerState, PaymentMethod } from '@grupakmk/libstorefront';
+import { AbstractStore, LibstorefrontInnerState } from '@grupakmk/libstorefront';
 import { DotpayResponse, DotpayStatus } from '../types';
 
 @injectable()
@@ -52,7 +52,7 @@ export class DotpayService {
      * @param {PaymentMethod} paymentMethod
      * @returns {boolean}
      */
-    public canHandleMethod (paymentMethod: PaymentMethod): boolean {
+    public canHandleMethod (paymentMethod): boolean {
         return ['dotpay_other', 'dotpay_widget'].includes(paymentMethod.code);
     }
 

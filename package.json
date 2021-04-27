@@ -6,7 +6,8 @@
   "types": "dist/index.d.js",
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "test": "jest --config jest.config.js --runInBand"
+    "test": "jest --config jest.config.js --runInBand",
+    "test:integration": "webpack-dev-server --config tests/integration/webpack.test.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,7 @@
   },
   "homepage": "https://gitlab.com/mateuspytel/libstorefront-plugin-template#readme",
   "dependencies": {
-    "@grupakmk/libstorefront": "^1.0.4",
+    "@grupakmk/libstorefront": "^2.0.0",
     "querystring": "^0.2.0"
   },
   "devDependencies": {
@@ -36,6 +37,7 @@
     "typescript": "^4.1.2",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0",
     "webpack-node-externals": "^2.5.2"
   },
   "publishConfig": {

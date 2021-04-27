@@ -12,7 +12,9 @@ export const DotpayPaymentPlugin = (libstorefront: LibStorefront) => {
     libstorefront.getIOCContainer().bind<DotpayDao>(DotpayDao).to(DotpayDao);
     libstorefront.listenTo(HookType.AfterCoreModulesRegistered, (lsf: LibStorefront) => {
         lsf.registerModule(createLibstorefrontModule('dotpay', dotpayReducer, DotpayDefaultState));
-        libstorefront.getIOCContainer().get(DotpayService).loadLastTransactionFromCache()
     });
-    // libstorefront.listenTo(HookType.AfterInit, () => libstorefront.getIOCContainer().get(DotpayService).loadLastTransactionFromCache());
+    libstorefront.listenTo(HookType.AfterInit, () => {
+        debugger;
+        libstorefront.getIOCContainer().get(DotpayService).loadLastTransactionFromCache();
+    });
 };
